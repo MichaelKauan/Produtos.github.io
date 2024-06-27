@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lanchonete Deliciosa</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1> Loja de Produtos Natura</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="produtos.html">Produtos</a></li>
+                <li><a href="">Contato</a></li>
+                <li><a href="javascript:void(0);" class="open-cart-btn" onclick="openCart()">🛒 Carrinho (<span id="cart-count">0</span>)</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div id="myCart" class="cart">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeCart()">&times;</a>
+        <h3>Seu Carrinho</h3>
+        <ul id="cart-items"></ul>
+        <div id="cart-total"></div>
+        <button class="checkout-btn" onclick="finalizarPedido()">Finalizar Pedido</button>
+    </div>
+    <main>
+        <section>
+            <h2>Bem-vindo à nossa Loja</h2>
+            <p>Explore Nossos Produtos Para Descobrir A Melhor Fragancia Para Voçê  </p>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 Lanchonete Deliciosa. Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+
+
+        // Função para abrir o carrinho
+        function openCart() {
+            document.getElementById("myCart").style.width = "300px";
+        }
+
+        // Função para fechar o carrinho
+        function closeCart() {
+            document.getElementById("myCart").style.width = "0";
+        }
+
+        // Função para finalizar o pedido
+        function finalizarPedido() {
+            alert('Pedido finalizado! Obrigado por comprar conosco.');
+            // Aqui você pode adicionar lógica adicional, como limpar o carrinho, enviar pedido por e-mail, etc.
+            limparCarrinho();
+        }
+
+        // Inicializar o carrinho
+        let cart = [];
+
+        // Função para atualizar a exibição do carrinho
+        function updateCart() {
+            const cartItemsElement = document.getElementById('cart-items');
+            cartItemsElement.innerHTML = '';
+            let total = 0;
+            cart.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = `${item.name} - R$${item.price} x ${item.quantity}`;
+                cartItemsElement.appendChild(li);
+                total += item.price * item.quantity;
+            });
+            document.getElementById('cart-count').textContent = cart.length;
+            document.getElementById('cart-total').textContent = `Total: R$${total.toFixed(2)}`;
+        }
+
+        // Função para adicionar ao carrinho
+        function adicionarAoCarrinho(produto, nome, preco, quantidade) {
+            const produtoExistente = cart.find(item => item.product === produto);
+            if (produtoExistente) {
+                produtoExistente.quantity += quantidade;
+            } else {
+                cart.push({ product: produto, name: nome, price: preco, quantity: quantidade });
+            }
+            updateCart();
+        }
+
+        // Função para limpar o carrinho
+        function limparCarrinho() {
+            cart = [];
+            updateCart();
+            closeCart();
+        }
+
+        // Estoque inicial dos produtos
+        const estoque = {
+            hamburguerClassico: 10,
+            cheeseburger: 8,
+            hamburguerFrango: 15,
+            batataFrita: 20,
+            refrigerante: 30
+        };
+
+        // Função para comprar um produto e atualizar o estoque
+        function comprarProduto(produto) {
+            if (estoque[produto] > 0) {
+                estoque[produto]--;
+                document.getElementById(`estoque-${produto}`).textContent = estoque[produto];
+                alert(`${produto.replace(/([A-Z])/g, ' $1').trim()} comprado!`);
+            } else {
+                alert(`Desculpe, ${produto.replace(/([A-Z])/g, ' $1').trim()} está fora de estoque.`);
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu da Lanchonete</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Produtos</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="produtos.html">Produtos</a></li>
+                <li><a href="">Contato</a></li>
+                <li><a href="javascript:void(0);" class="open-cart-btn" onclick="openCart()">🛒 Carrinho (<span id="cart-count">0</span>)</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div id="myCart" class="cart">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeCart()">&times;</a>
+        <h3>Seu Carrinho</h3>
+        <ul id="cart-items"></ul>
+        <div id="cart-total"></div>
+        <button class="checkout-btn" onclick="finalizarPedido()">Finalizar Pedido</button>
+    </div>
+    <main>
+        <button onclick="window.location.href='produto.html?id='">
+            <h2>produtos1</h2>
+            <img src="" alt="produtos1">
+            <p>Perfume ou sla quarquer coisa</p>
+            <p>Preço: R$ 12,00</p>
+        </button>
+
+        <button onclick="window.location.href='produto.html?id='">
+            <h2>produto2</h2>
+            <img src="" alt="produto2">
+            <p>sla quaquer coisa</p>
+            <p>Preço: R$ 14,00</p>
+        </button>
+
+        <button onclick="window.location.href='produto.html?id='">
+            <h2>produto3</h2>
+            <img src="hamburguer-frango.jpg" alt="produto3">
+            <p>creme etc...</p>
+            <p>Preço: R$ 11,00</p>
+        </button>
+
+        <button onclick="window.location.href='produto.html?id='">
+            <h2>produto4</h2>
+            <img src="" alt="produto4">
+            <p>boris plache</p>
+            <p>Preço: R$ 8,00</p>
+        </button>
+
+        <button onclick="window.location.href='produto.html?id='">
+            <h2>produto5</h2>
+            <img src="" alt="produto5">
+            <p>slaaaa..</p>
+            <p>Preço: R$ 5,00</p>
+        </button>
+
+        <!-- Adicione mais produtos aqui conforme necessário -->
+
+    </main>
+    <footer>
+        <p>&copy; 2024 Produtos Natura. Todos os direitos reservados.</p>
+    </footer>
+    <script>
+
+
+        // Função para abrir o carrinho
+        function openCart() {
+            document.getElementById("myCart").style.width = "300px";
+        }
+
+        // Função para fechar o carrinho
+        function closeCart() {
+            document.getElementById("myCart").style.width = "0";
+        }
+
+        // Função para finalizar o pedido
+        function finalizarPedido() {
+            alert('Pedido finalizado! Obrigado por comprar conosco.');
+            // Aqui você pode adicionar lógica adicional, como limpar o carrinho, enviar pedido por e-mail, etc.
+            limparCarrinho();
+        }
+
+        // Inicializar o carrinho
+        let cart = [];
+
+        // Função para atualizar a exibição do carrinho
+        function updateCart() {
+            const cartItemsElement = document.getElementById('cart-items');
+            cartItemsElement.innerHTML = '';
+            let total = 0;
+            cart.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = `${item.name} - R$${item.price} x ${item.quantity}`;
+                cartItemsElement.appendChild(li);
+                total += item.price * item.quantity;
+            });
+            document.getElementById('cart-count').textContent = cart.length;
+            document.getElementById('cart-total').textContent = `Total: R$${total.toFixed(2)}`;
+        }
+
+        // Função para adicionar ao carrinho
+        function adicionarAoCarrinho(produto, nome, preco, quantidade) {
+            const produtoExistente = cart.find(item => item.product === produto);
+            if (produtoExistente) {
+                produtoExistente.quantity += quantidade;
+            } else {
+                cart.push({ product: produto, name: nome, price: preco, quantity: quantidade });
+            }
+            updateCart();
+        }
+
+        // Função para limpar o carrinho
+        function limparCarrinho() {
+            cart = [];
+            updateCart();
+            closeCart();
+        }
+
+      
+    </script>
+</body>
+</html>
